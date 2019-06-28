@@ -17,10 +17,29 @@ module.exports = (app)=>{
       });
 
     app.delete('/todo/:item', function (req, res) {
-      data = data.filter(function(todo){
-        return todo.item.replace(/ /g, '-') !==req.params.item;
-      });
+      const updateData = (data)=>{
+        let newData = [];
+        
+        for(let i=0; i<data.length; i++){
+          
+           
+          // console.log( `wyswietla :${data[i].item}  req.params.item = ${req.params.item} req.body = ${JSON.stringify(req.params.item)}`)
+          if(data[i].item.replace(/ /i, '') !== req.params.item ){
+            newData.push(data[i].item);
+            console.log(data[i].item.split(" ").join("-"))
+           
+          }
+          
+        }
+        data=newData;
+          return data;
+      };
+      data = updateData(data);
+       
+      
+      
       res.json(data);
+     
     });
         
 }
