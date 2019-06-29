@@ -6,19 +6,20 @@
     </head>
     <body>
         <h1>todo title</h1>
-        <div id="todo-table">
+        <div >
             <form >
               <input type="text" name="item"  placeholder="add new item..." required />
               <button type="submit">add item</button>
             </form>
             <ul>
                 <% todo.forEach( (el)=>{ %>
-                     <li>  <%= el.item %>  </li> 
+                     <li><%= el.item %></li> 
                 <% }) %>
                
             </ul>
         </div>
            <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous">
-           </script> <script src="/assets/todo-list.js"></script>
+           </script> 
+           <script src="/assets/todo-list.js"></script>
     </body>
 </html>
