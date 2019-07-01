@@ -20,38 +20,51 @@ let todoSchema = new mongoose.Schema({
 
 let Todo = mongoose.model('Todo',todoSchema );
 
-let itemOne = Todo({item:"get flowers"}).save(function(err){
-  if(err){
-  console.log(err)
-   }else{
-     console.log('item saved')
-   }
+// let itemOne = Todo({item:"get flowers"}).save(function(err){
+//   if(err){
+//   console.log(err)
+//    }else{
+//      console.log('item saved')
+//    }
     
-});
+// });
 
 
 // basic data
-let data = [{item:"learn sth new"},{item:"learn more"},{item:"and more!"}];
+// let data = [{item:"learn sth new"},{item:"learn more"},{item:"and more!"}];
 
 
 module.exports = (app)=>{
-    app.get('/todo', function (req, res) {
+    app.get('/', function (req, res) {
+      //getting data from db
+
+      Todo.find({},function(err,data){
         res.render('todo',{todo:data});
+      });
+        
       });
 
     app.post('/todo', urlencodedParser, function (req, res) {
-      data.push(req.body);
-      res.json(data);
+
+      //get data from view and add to db
+
+      let newTodo = Todo(req.body).save(function(err,data){
+        if(err)throw err;
+        res.json(data);
+      });
+      
       });
 
   
       
   app.delete('/todo/:item', function (req, res) {
-      
-    data = data.filter(function(todo){
-      return todo.item.replace(/ /g, '-') != req.params.item;
-    });
-    res.json(data);
+      //delete requested item from db
+
+      Todo.find({item:req.params.item.replace(/\-/g," ")}).remove(function(err,data){
+        if(err) throw err;
+        res.json(data);
+      }); 
+    
     });
   
         
