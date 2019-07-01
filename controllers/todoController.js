@@ -24,9 +24,9 @@ module.exports = (app)=>{
           
            
           // console.log( `wyswietla :${data[i].item}  req.params.item = ${req.params.item} req.body = ${JSON.stringify(req.params.item)}`)
-          if(data[i].item.replace(/ /i, '') !== req.params.item ){
+          if(data[i].item !== req.params.item.slice(2) ){
             newData.push(data[i].item);
-            console.log(data[i].item.split(" ").join("-"))
+            
            
           }
           
