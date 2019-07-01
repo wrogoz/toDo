@@ -1,6 +1,34 @@
 const bodyParser = require('body-parser');
-
+const mongoose = require('mongoose');
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
+
+
+//connect to db
+const url = 'mongodb://test:test@todoapp-shard-00-00-bsb8g.mongodb.net:27017,todoapp-shard-00-01-bsb8g.mongodb.net:27017,todoapp-shard-00-02-bsb8g.mongodb.net:27017/test?ssl=true&replicaSet=toDoApp-shard-0&authSource=admin&retryWrites=true&w=majority';
+
+mongoose.connect(url,{ useNewUrlParser: true });
+
+
+//schema
+
+
+let todoSchema = new mongoose.Schema({
+  item: String
+});
+
+// model
+
+let Todo = mongoose.model('Todo',todoSchema );
+
+let itemOne = Todo({item:"get flowers"}).save(function(err){
+  if(err){
+  console.log(err)
+   }else{
+     console.log('item saved')
+   }
+    
+});
+
 
 // basic data
 let data = [{item:"learn sth new"},{item:"learn more"},{item:"and more!"}];
@@ -16,30 +44,17 @@ module.exports = (app)=>{
       res.json(data);
       });
 
-    app.delete('/todo/:item', function (req, res) {
-      const updateData = (data)=>{
-        let newData = [];
-        
-        for(let i=0; i<data.length; i++){
-          
-           
-          // console.log( `wyswietla :${data[i].item}  req.params.item = ${req.params.item} req.body = ${JSON.stringify(req.params.item)}`)
-          if(data[i].item !== req.params.item.slice(2) ){
-            newData.push(data[i].item);
-            
-           
-          }
-          
-        }
-        data=newData;
-          return data;
-      };
-      data = updateData(data);
-       
+  
       
+  app.delete('/todo/:item', function (req, res) {
       
-      res.json(data);
-     
+    data = data.filter(function(todo){
+      return todo.item.replace(/ /g, '-') != req.params.item;
     });
+    res.json(data);
+    });
+  
         
-}
+};
+
+
