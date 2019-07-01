@@ -21,6 +21,7 @@ in progress
 # Instalation:
 
 npm install
+
 node index.js
 
 View in browser at http://localhost:3000
