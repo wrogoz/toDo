@@ -9,12 +9,6 @@
 - mongoose
 - body-parser
 
-# Features:
-
-- Body systems 
-- Organs description
-- Senses description
-- Add or Cut organs on phantom
 
 # To do:
 
